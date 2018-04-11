@@ -478,6 +478,9 @@ let overrideCabal = pkg: f: if pkg == null then null else haskellLib.overrideCab
     nixpkgs = nixpkgsFunc { system = "x86_64-linux"; };
     inherit nixpkgsCross ghcAndroidArm64 ghcAndroidArmv7a overrideCabal;
   };
+  qemu = import ./android/qemu {
+        pkgs = nixpkgs;
+  };
   ios = iosWithHaskellPackages ghcIosArm64;
   iosWithHaskellPackages = ghcIosArm64: {
     buildApp = import ./ios {
@@ -508,6 +511,7 @@ in let this = rec {
           ghcjs
           android
           androidWithHaskellPackages
+          qemu
           ios
           iosWithHaskellPackages;
   androidReflexTodomvc = android.buildApp {
